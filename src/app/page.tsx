@@ -2,7 +2,6 @@
 import { createContext, useReducer } from "react";
 import { ProductListingPage } from "./shopping/ProductListingPage";
 import {
-  ProductDetails,
   ProductStateAction,
   ProductStateTypes
 } from "./shopping/product.model";

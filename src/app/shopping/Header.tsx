@@ -2,14 +2,12 @@ import {
   Input,
   MenuItem,
   Select,
-  Switch,
   ToggleButton,
   ToggleButtonGroup
 } from "@mui/material";
+import axios from "axios";
 import { useContext, useEffect } from "react";
 import { ProductContext } from "../page";
-import axios from "axios";
-// import { ProductContext } from "./ProductListingPage";
 
 export function Header() {
   const { productState, productDispatch } = useContext(ProductContext);

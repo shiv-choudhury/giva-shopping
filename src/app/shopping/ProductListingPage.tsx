@@ -1,27 +1,11 @@
 "use client";
-import {
-  Button,
-  Input,
-  MenuItem,
-  Rating,
-  Select,
-  Skeleton,
-  Stack,
-  Switch,
-  TextField,
-  Tooltip,
-  Typography
-} from "@mui/material";
+import { Button, Rating, Stack, Tooltip, Typography } from "@mui/material";
 import axios from "axios";
-import React, { useContext, useEffect } from "react";
-import { Loader } from "./Loader";
-import { Header } from "./Header";
-import {
-  ProductCardProps,
-  ProductDetails,
-  ProductProps
-} from "./product.model";
+import { useContext, useEffect } from "react";
 import { ProductContext } from "../page";
+import { Header } from "./Header";
+import { Loader } from "./Loader";
+import { ProductCardProps, ProductProps } from "./product.model";
 
 export function ProductListingPage() {
   const { productState, productDispatch } = useContext(ProductContext);
