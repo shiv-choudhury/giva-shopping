@@ -17,7 +17,6 @@ export default function Header() {
 
   const { categoryList, category, sortBy, sortByOrder, cartItems } =
     productState;
-  console.log("cartItems", cartItems);
 
   useEffect(() => {
     getCategoryList();
@@ -42,7 +41,6 @@ export default function Header() {
         type: "SET_CATEGORY_LIST",
         categoryList: response.data
       });
-      console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -82,7 +80,6 @@ export default function Header() {
                   category: e.target.value,
                   skip: 0
                 });
-                console.log("changed", e.target.value);
               }}
               input={<Input />}
             >
@@ -109,7 +106,6 @@ export default function Header() {
                   sortBy: e.target.value,
                   skip: 0
                 });
-                console.log("sort by", e.target.value);
               }}
               input={<Input />}
             >

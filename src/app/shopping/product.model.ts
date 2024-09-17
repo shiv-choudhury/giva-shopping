@@ -16,6 +16,15 @@ export interface ProductProps {
   thumbnail: string;
   category: string;
   rating: number;
+  id: number;
+  returnPolicy: string;
+  warrantyInformation: string;
+  shippingInformation: string;
+  reviews: Array<{
+    rating: number;
+    comment: string;
+    reviewerName: string;
+  }>;
 }
 
 export interface ProductStateTypes {
