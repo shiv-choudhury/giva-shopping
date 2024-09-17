@@ -23,6 +23,16 @@ export default function Header() {
     getCategoryList();
   }, [cartItems]);
 
+  useEffect(() => {
+    const savedCart = localStorage.getItem("cartItems");
+    if (savedCart) {
+      productDispatch({
+        type: "SET_CART_ITEMS",
+        cartItems: JSON.parse(savedCart)
+      });
+    }
+  }, []);
+
   const getCategoryList = async () => {
     try {
       const response: any = await axios.get(
@@ -69,7 +79,8 @@ export default function Header() {
               onChange={(e) => {
                 productDispatch({
                   type: "SET_CATEGORY",
-                  category: e.target.value
+                  category: e.target.value,
+                  skip: 0
                 });
                 console.log("changed", e.target.value);
               }}
@@ -95,7 +106,8 @@ export default function Header() {
               onChange={(e) => {
                 productDispatch({
                   type: "SET_SORT_BY",
-                  sortBy: e.target.value
+                  sortBy: e.target.value,
+                  skip: 0
                 });
                 console.log("sort by", e.target.value);
               }}
@@ -114,6 +126,7 @@ export default function Header() {
             </Select>
 
             <ToggleButtonGroup
+              disabled={!sortBy}
               sx={{ ml: 2 }}
               size="small"
               color="primary"

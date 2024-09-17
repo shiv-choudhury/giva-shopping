@@ -8,13 +8,17 @@ import {
   Tooltip,
   Typography
 } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ProductContext } from "../page";
 import { ProductCardProps, ProductProps } from "./product.model";
 
 const ProductCard = (props: ProductCardProps) => {
   const { productState, productDispatch } = useContext(ProductContext);
   const { cartItems } = productState;
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const { title, description, price, thumbnail, category, rating } =
     props.products;

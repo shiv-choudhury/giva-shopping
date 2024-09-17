@@ -22,9 +22,9 @@ function productReducer(state: ProductStateTypes, action: ProductStateAction) {
         categoryList: action.categoryList
       };
     case "SET_CATEGORY":
-      return { ...state, category: action.category };
+      return { ...state, category: action.category, skip: action.skip };
     case "SET_SORT_BY":
-      return { ...state, sortBy: action.sortBy };
+      return { ...state, sortBy: action.sortBy, skip: action.skip };
     case "SET_SORT_BY_ORDER":
       return { ...state, sortByOrder: action.sortByOrder };
     case "SET_SKIP":
