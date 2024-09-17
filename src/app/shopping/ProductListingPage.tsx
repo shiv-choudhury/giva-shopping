@@ -1,35 +1,17 @@
 "use client";
-import { Button, Rating, Stack, Tooltip, Typography } from "@mui/material";
+import { Button, Grid2, Stack } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect } from "react";
 import { ProductContext } from "../page";
-import { Header } from "./Header";
+import Header from "./Header";
 import { Loader } from "./Loader";
-import { ProductCardProps, ProductProps } from "./product.model";
+import { ProductProps } from "./product.model";
+import ProductCard from "./ProductCard";
 
 export function ProductListingPage() {
-  const { productState, productDispatch } = useContext(ProductContext);
-
-  useEffect(() => {
-    getCategoryList();
-  }, []);
-
-  const getCategoryList = async () => {
-    try {
-      const response: any = await axios.get(
-        "https://dummyjson.com/products/category-list"
-      );
-      productDispatch({
-        type: "SET_CATEGORY_LIST",
-        categoryList: response.data
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <div style={{ padding: 20 }}>
+      <Header />
       <ProductList />
     </div>
   );
@@ -37,16 +19,8 @@ export function ProductListingPage() {
 
 export function ProductList() {
   const { productState, productDispatch } = useContext(ProductContext);
-  const {
-    categoryList,
-    category,
-    products,
-    loading,
-    skip,
-    sortBy,
-    sortByOrder,
-    cartItems
-  } = productState;
+  const { category, products, loading, skip, sortBy, sortByOrder } =
+    productState;
 
   useEffect(() => {
     getProducts();
@@ -57,7 +31,7 @@ export function ProductList() {
       type: "SET_LOADING",
       loading: true
     });
-    let params = {
+    const params = {
       limit: 10,
       skip: skip,
       sortBy: sortBy,
@@ -70,7 +44,7 @@ export function ProductList() {
     }
 
     try {
-      const response: any = await axios(url, {
+      const response = await axios(url, {
         params: params
       });
       productDispatch({
@@ -87,16 +61,23 @@ export function ProductList() {
     }
   };
 
+  if (loading) return <Loader />;
+
   return (
     <div>
-      <Header />
-
-      <h2>Product List</h2>
       <hr />
-      {(!loading &&
-        products?.products?.map((product: ProductProps) => {
-          return <ProductCard products={product} />;
-        })) || <Loader />}
+      <h2>Product List</h2>
+      <Grid2 container spacing={2}>
+        {!loading &&
+          products?.products?.length > 0 &&
+          products?.products?.map((product: ProductProps) => {
+            return (
+              <Grid2 key={product.title} size={{ lg: 6, md: 12, sm: 12 }}>
+                <ProductCard key={product.title} products={product} />
+              </Grid2>
+            );
+          })}
+      </Grid2>
       <hr />
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Button
@@ -105,7 +86,7 @@ export function ProductList() {
           onClick={() =>
             productDispatch({
               type: "SET_SKIP",
-              skip: skip - 10
+              skip: Math.max(skip - 10, 0)
             })
           }
         >
@@ -130,57 +111,3 @@ export function ProductList() {
     </div>
   );
 }
-
-const ProductCard = (props: ProductCardProps) => {
-  const { productState, productDispatch } = useContext(ProductContext);
-  const { cartItems } = productState;
-  console.log("cartItems", cartItems);
-
-  const { title, description, price, thumbnail, category, rating } =
-    props.products;
-  return (
-    <div className="card-wrap">
-      <div className="card">
-        <div className="title">{title}</div>
-        <Tooltip title={description} placement="top" arrow>
-          <Typography noWrap>{description}</Typography>
-        </Tooltip>
-        <Typography
-          variant="caption"
-          sx={{ textTransform: "capitalize" }}
-          noWrap
-        >
-          Category: {category}
-        </Typography>
-        <Rating value={rating} precision={0.1} />
-        <b className="price">${price}</b>
-        <img src={thumbnail} alt={title} width="auto" height="auto" />
-        <Button
-          variant="contained"
-          onClick={() => {
-            console.log("Add To Cart");
-            productDispatch({
-              type: "SET_CART_ITEMS",
-              cartItems: [...cartItems, props.products]
-            });
-          }}
-        >
-          Add To Cart
-        </Button>
-        <Button
-          color="error"
-          variant="outlined"
-          // onClick={() => {
-          //   console.log("Remove From Cart");
-          //   productDispatch({
-          //     type: "REMOVE_FROM_CART",
-          //     products: props.products
-          //   });
-          // }}
-        >
-          Remove from Cart
-        </Button>
-      </div>
-    </div>
-  );
-};

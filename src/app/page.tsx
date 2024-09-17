@@ -52,8 +52,8 @@ export default function ShoppingApp() {
     loading: false,
     params: {},
     category: "",
-    sortBy: undefined,
-    sortByOrder: undefined,
+    sortBy: null,
+    sortByOrder: null,
     cartItems: []
   };
 

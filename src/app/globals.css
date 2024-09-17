@@ -19,9 +19,8 @@ h1 {
 }
 
 .card {
-  border-radius: 32px;
+  border-radius: 16px;
   padding: 16px;
-  margin: 16px;
   background: #cecdcd;
 }
 

@@ -25,8 +25,8 @@ export interface ProductStateTypes {
   loading: boolean;
   params: object;
   category: string;
-  sortBy: string | undefined;
-  sortByOrder: string | undefined;
+  sortBy: string | null;
+  sortByOrder: string | null;
   cartItems: ProductProps[];
 }
 
